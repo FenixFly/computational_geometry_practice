@@ -1,10 +1,13 @@
+from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQGLViewer import *
 from OpenGL.GL import *
 
 class Viewer(QGLViewer):
+
     def __init__(self,parent = None):
         QGLViewer.__init__(self,parent)
+        
     def draw(self):
         glBegin(GL_TRIANGLES)
         glColor3f(1.0, 0.0 , 0.0)
@@ -14,6 +17,14 @@ class Viewer(QGLViewer):
         glColor3f(0.0, 0.0 , 1.0)
         glVertex3f(0.0, 1.0, 0.0)
         glEnd()
+        
+    def keyPressEvent(self,e):
+        modifiers = e.modifiers()
+        if (e.key()==Qt.Key_W):
+            glPolygonMode(GL_FRONT_AND_BACK, GL_LINE)
+        if (e.key()==Qt.Key_F):
+            glPolygonMode(GL_FRONT_AND_BACK, GL_FILL)
+        self.updateGL()
   
 def main():
     qapp = QApplication([])
